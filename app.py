@@ -5,6 +5,8 @@ import os
 
 app = Flask(__name__)
 
+app.secret_key = os.environ["flask_secret_key"]
+
 app.config["SESSION_COOKIE_SAMESITE"] = "None"
 app.config["SESSION_COOKIE_SECURE"] = True
 
@@ -109,14 +111,15 @@ def get_leaderboard(users):
 # ICONS
 @app.template_filter()
 def trophy_or_position(index):
-  if index == 0:
-    return "🏆"
-  elif index == 1:
-    return "🥈"
-  elif index == 2:
-    return "🥉"
-  else:
-    return index + 1
+    if index == 0:
+        return "🏆"
+    elif index == 1:
+        return "🥈"
+    elif index == 2:
+        return "🥉"
+    else:
+        return index + 1
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=81)
