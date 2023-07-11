@@ -5,6 +5,9 @@ import os
 
 app = Flask(__name__)
 
+app.config["SESSION_COOKIE_SAMESITE"] = "None"
+app.config["SESSION_COOKIE_SECURE"] = True
+
 
 @app.route("/", methods=["GET", "POST"])
 def home():
