@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random-Dog-Generator</title>
+  <link rel="stylesheet" href="./static/styles.css"/>
+</head>
+<body>
+  {% from 'components.html' import card with context %}
+
+{% if not session['user'] %}
+  <div class='login-title'>Enter your name 👇</div>
+  <form action='/' method='POST'>
+    <div class='login-form'>
+      <input  type="text" name="user_name" placeholder='Username'>
+      <button type="submit">Login / Sign up</button>
+    </div>
+  </form>
+{% endif %}
+
+{% if session['user'] %}
+  <div class='wrapper'>
+    <div class='header'>
+      <div>
+        {{ card(emoji='🐶', data=dogs_generated, title='Total Dogs')}}
+        {{ card(emoji='👤', data=session['user'], title='Username')}}
+        {{ card(emoji='🔑', data=user['logins'], title='No. of Logins')}}
+        {{ card(emoji='🐕', data=user['dogs_generated'], title='Dogs You Generated')}}
+      </div>
+         <div id='dog'>
+           <img src="{{ dog_image }}" width='200' height='200' style='border-radius: 10%' alt="dog image">
+        </div>
+    </div>
+    
+    <div class='buttonsContainer'>
+      <form action="/get_dog" method='GET'>
+        <button>Get Random Dog</button>
+      </form>
+
+    <form action='/logout'>
+      <button>Logout</button>
+    </form>
+  </div>
+
+    <table class = "leaderboard">
+        <th>
+          <div class='titles'>
+            <tr>  
+              <td>Place</td>
+              <td>Name</td>
+              <td>Dogs Generated 🐕</td>
+              <td>Logins</td>
+            </tr>  
+          </div>
+        </th>
+
+      {% for index, user in users %}
+          <tr>
+            <!-- Insert the index. Add a trophy if the index is 1 -->
+            <td> {{ index | trophy_or_position }} </td>
+            <!-- Insert Username -->
+            <td>{{ user['user_name'] }}</td>
+            <!-- Insert Number of Dogs Generated -->
+            <td>{{ user['dogs_generated'] }}</td>
+            <!-- Insert Number of Logins -->
+            <td>{{ user['logins'] }}</td>
+          </tr>
+      {% endfor %}
+    
+    </table>
+  </div>
+{% endif %}
+</body>
+</html>
