@@ -11,6 +11,18 @@ app.config["SESSION_COOKIE_SAMESITE"] = "None"
 app.config["SESSION_COOKIE_SECURE"] = True
 
 
+# Initializing the count in the database
+if "total_dogs_generated" not in db:
+  db["total_dogs_generated"] = 0
+
+# Initializing most recent image
+if "last_dog" not in db:
+  db["last_dog"] = ""
+
+# Initializing users in the db
+if "users" not in db:
+db["users"] = []
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     # Accessing users' requests
