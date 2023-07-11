@@ -33,5 +33,33 @@ def home():
     )
 
 
+@app.route("/get_dog")
+def get_dog():
+    # requesting for the random dog API
+    response = requests.get("https://dog.ceo/api/breeds/image/random")
+    data = response.json()
+    dog_image = data["message"]
+    print(db["total_dogs_generated"])
+
+    # Storing the most recent dog image
+    db["last_dog"] = dog_image
+
+    # Checking if the user is in session
+    if session["user"]:
+        user = user = get_user_from_database(session["user"])
+        user["dogs_generated"] += 1
+
+    # Incrementing the number of dogs generated in the database
+    db["total_dogs_generated"] += 1
+
+    return render_template(
+        "index.html",
+        dog_image=dog_image,
+        users=enumerate(get_leaderboard(db["users"])),
+        user=user,
+        dogs_generated=db["total_dogs_generated"],
+    )
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=81)
