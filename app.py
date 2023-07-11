@@ -64,11 +64,39 @@ def get_dog():
 # LOGOUT FUNCTIONALITY
 @app.route("/logout")
 def logout():
-  session["user"] = None
-  return render_template("index.html", dogs_generated=["total_dogs_generated"])
+    session["user"] = None
+    return render_template("index.html", dogs_generated=["total_dogs_generated"])
 
 
-#___FUNCTIONS___#
+# ___FUNCTIONS___#
+def create_or_update_user(user_name):
+  # Filtering
+  user = get_user_from_database(user_name)
+
+  # Checking if user exists in the database
+  if user:
+      print("USER EXISTS!")  # In the console
+      user["logins"] += 1
+      print(user)
+  else:
+      print("NEW USER!")  # In the console
+
+      # Adding new user
+      db["users"].append({"user_name": user_name, "logins": 1, "dogs_generated": 0})
+    user = get_user_from_database(user_name)
+
+  return user
+
+
+def get_user_from_database(user_name):
+  # Filtering
+  user = [user for user in db["users"] if user["user_name"] == user_name]
+
+  # Redefining --> either {} or None
+  user = user[0] if user else None
+
+  return user
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=81)
