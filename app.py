@@ -21,7 +21,7 @@ if "last_dog" not in db:
 
 # Initializing users in the db
 if "users" not in db:
-db["users"] = []
+  db["users"] = []
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -44,7 +44,7 @@ def home():
         "index.html",
         dogs_generated=db["total_dogs_generated"],
         dog_image=db["last_dog"],
-        users=enumerate(get_leaderboard(db - "users")),
+        users=enumerate(get_leaderboard(db["users"])),
         user=user,
         logins=user["logins"] if user else 0,
     )
