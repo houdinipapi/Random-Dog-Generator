@@ -107,7 +107,7 @@ def get_leaderboard(users):
 @app.template_filter()
 def trophy_or_position(index):
   if index == 0:
-    return "🥇 🏆"
+    return "🏆"
   elif index == 1:
     return "🥈"
   elif index == 2:
