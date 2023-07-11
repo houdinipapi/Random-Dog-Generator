@@ -98,5 +98,9 @@ def get_user_from_database(user_name):
     return user
 
 
+def get_leaderboard(users):
+  # Returns users according to number of dogs generated
+  return sorted(db["users"], key=lambda user: user["dogs_generated"], reverse=True)
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=81)
